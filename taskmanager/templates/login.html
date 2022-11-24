@@ -1,0 +1,45 @@
+{% load static %}
+
+<html>
+    <head>
+
+        <meta charset="utf-8" />
+
+        <meta name="viewport" content="width-device-width, initial-scale=1, maximum-scale=1" />
+
+        <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
+
+        <link rel="stylesheet" type="text/css" href="{% static "css/styles.css" %}">
+
+        <title> Log in </title>
+
+    </head>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
+
+        <a class="navbar-brand main-heading">
+    
+            &nbsp;
+    
+            <li class="nav-item">
+              <a class="navbar-brand main-heading" href="{% url '' %}">Todoist</a>
+            </li>
+    
+        </a>
+    </nav>
+
+    <div class="container bg-black shadow-md p-5 form-layout">
+        <form method="POST" autocomplete="off">
+
+            {% csrf_token %}
+
+            {{form.as_p}}
+
+            <input class="btn btn-primary navbar-btn" type = "submit" value = "Log in"/>
+            &nbsp;&nbsp;&nbsp;
+            <a href="{% url 'register' %}"> Don't have an account? </a>
+
+        </form>
+    </div>
+
+</html>
