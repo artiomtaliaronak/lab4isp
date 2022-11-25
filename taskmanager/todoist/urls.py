@@ -27,6 +27,8 @@ urlpatterns = [
 
     path('profilemanager', views.profileManager, name='profilemanager'),
 
+    #THREAD
+
 
     #path('readtasks', views.viewTasks),
 

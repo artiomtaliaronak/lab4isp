@@ -10,10 +10,22 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Task
 
+from .models import *
+
 import logging
+
+from threading import Thread
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename="logs.txt", level=logging.INFO)
+
+
+def start_new_thread(function):
+    def decorator(*args, **kwargs):
+        t = Thread(target = function, args=args, kwargs=kwargs)
+        t.daemon = True
+        t.start()
+    return decorator
 
 # Create your views here.
 
@@ -22,6 +34,7 @@ def home(request):
     return render(request, 'index.html')
 
 #CRUD-CREATE
+@start_new_thread
 @login_required(login_url='login')
 def createTask(request):
     
@@ -58,6 +71,7 @@ def viewTasks(request):
     return render(request, 'profile/viewtasks.html', context=context)
 
 #CRUD-UPDATE
+@start_new_thread
 @login_required(login_url='login')
 def updateTask(request, pk):
 
@@ -85,6 +99,7 @@ def updateTask(request, pk):
 
 
 #CRUD-DELETE
+@start_new_thread
 @login_required(login_url='login')
 def deleteTask(request, pk):
     
@@ -112,7 +127,7 @@ def register(request):
 
             form.save()
 
-            return HttpResponse("registered")
+            return redirect('dashboard')
 
     context = {'form':form}
 
@@ -157,7 +172,7 @@ def dashboard(request):
     logger.info('{} opened dashboard' .format(request.user.username))
     return render(request, 'profile/dashboard.html')
 
-
+@start_new_thread
 @login_required(login_url='login')
 def profileManager(request):
     
@@ -176,6 +191,7 @@ def profileManager(request):
     context = {'form':form}
     logger.info('{} updated profile' .format(request.user.username))
     return render(request, 'profile\profilemanager.html', context=context)
+
 
 
 
